@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Stress Level Detection</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body { background: #f8f9fa; }
+    .container { max-width: 800px; margin: 40px auto; }
+    .video-container {
+      border: 4px solid #343a40;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .video-container img {
+      width: 100%;
+      height: auto;
+    }
+    .status-box {
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .status-item {
+      font-size: 1.3rem;
+      margin: 10px 0;
+    }
+    .status-label {
+      font-weight: bold;
+    }
+    .btn-group {
+      margin-top: 20px;
+    }
+
+.btn {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+.btn:hover {
+  background-color: #0056b3;
+}
+  </style>
+</head>
+<body>
+  <div class="container text-center">
+    <h1 class="mb-4">🧠 Live Stress Level Detection</h1>
+
+    <!-- लाइव वीडियो फ़ीड -->
+    <div class="video-container">
+      <img src="{{ url_for('main.video_feed') }}" alt="Live feed">
+    </div>
+
+    <!-- इमोशन और स्ट्रेस लेवल स्टेटस -->
+    <div class="status-box text-start">
+      <div class="status-item">
+        <span class="status-label">Emotion:</span>
+        <span id="emotion">Loading...</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Stress Level:</span>
+        <span id="stress">Loading...</span>
+      </div>
+
+      <!-- बटन ग्रुप -->
+      <div class="btn-group">
+        <a href="{{ url_for('main.remedies') }}" class="btn btn-primary btn-lg">
+          Remedies
+        </a>
+
+        
+
+
+        <a href="{{ url_for('main.home') }}" class="btn btn-secondary btn-lg ms-3">
+          ← Home 
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // हर 500ms में सर्वर से emotion & stress लेवल का डेटा मांगें
+    async function fetchStatus() {
+      try {
+        const res = await fetch('{{ url_for("main.status") }}');
+        const data = await res.json();
+        document.getElementById('emotion').innerText = data.emotion;
+        document.getElementById('stress').innerText = data.stress_level;
+      } catch (err) {
+        console.error("Status fetch error:", err);
+      }
+    }
+    // पहला कॉल तुरंत और फिर नियमित अंतराल पर
+    fetchStatus();
+    setInterval(fetchStatus, 500);
+  </script>
+</body>
+</html>

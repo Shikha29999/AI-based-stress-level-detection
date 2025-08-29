@@ -1,0 +1,44 @@
+<!-- templates/tree_result.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stress Level Prediction</title>
+    <style>
+        body {
+            background-color: #e9f1f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            margin: 80px auto;
+            width: 500px;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .result {
+            font-size: 26px;
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Decision Tree Stress Prediction</h2>
+        <p class="result">Predicted Stress Level: <strong>{{ result }}</strong></p>
+        <a href="/" class="btn">Back to Home</a>
+    </div>
+</body>
+</html>
